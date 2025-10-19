@@ -60,7 +60,7 @@ export default function FloatingTabBar({
       damping: 20,
       stiffness: 90,
     });
-  }, [activeIndex, containerWidth, tabs.length]);
+  }, [activeIndex, containerWidth, tabs.length, translateX]);
 
   const indicatorStyle = useAnimatedStyle(() => {
     return {
@@ -108,13 +108,6 @@ export default function FloatingTabBar({
         />
         {tabs.map((tab, index) => {
           const isActive = index === activeIndex;
-          const scale = useSharedValue(1);
-
-          const animatedStyle = useAnimatedStyle(() => {
-            return {
-              transform: [{ scale: scale.value }],
-            };
-          });
 
           return (
             <TouchableOpacity
@@ -123,7 +116,7 @@ export default function FloatingTabBar({
               onPress={() => handleTabPress(tab.route)}
               activeOpacity={0.7}
             >
-              <Animated.View style={[styles.tabContent, animatedStyle]}>
+              <View style={styles.tabContent}>
                 <IconSymbol
                   name={tab.icon as any}
                   size={24}
@@ -140,7 +133,7 @@ export default function FloatingTabBar({
                 >
                   {tab.label}
                 </Text>
-              </Animated.View>
+              </View>
             </TouchableOpacity>
           );
         })}
